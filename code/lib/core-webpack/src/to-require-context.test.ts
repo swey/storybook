@@ -1,4 +1,4 @@
-import { relative } from 'node:path';
+import { relative, sep } from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
@@ -273,7 +273,9 @@ describe('toRequireContext', () => {
       const regex = new RegExp(match);
 
       function isMatched(filePath: string) {
-        const relativePath = `./${relative(base, filePath)}`;
+        // webpack tests require.context matches against posix-style relative request paths, even
+        // on Windows, while node's relative() returns native separators there — normalize.
+        const relativePath = `./${relative(base, filePath).split(sep).join('/')}`;
 
         const baseIncluded = filePath.includes(base);
         const matched = regex.test(relativePath);
