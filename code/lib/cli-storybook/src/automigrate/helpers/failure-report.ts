@@ -37,10 +37,7 @@ const renderSections = (failures: FixFileFailure[], root: string) =>
           // The report is a markdown file that should read the same on every platform, so render
           // posix-separated paths and strip the root prefix whether the message carries `\` or `/`.
           `| \`${cell(relative(root, file).replace(/\\/g, '/'))}\` | ${cell(
-            message
-              .replaceAll(`${root}${sep}`, '')
-              .replaceAll(`${root}/`, '')
-              .replace(/\\/g, '/')
+            message.replaceAll(`${root}${sep}`, '').replaceAll(`${root}/`, '').replace(/\\/g, '/')
           )} |`
       ),
     ].join('\n')
